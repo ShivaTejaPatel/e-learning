@@ -1,22 +1,34 @@
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import authRouter from "./routes/auth.route.js";
+
 import express from "express";
 import cookieParser from "cookie-parser";
-import pool from "./database.js"; // Import the database connection
-
+import path from "path";
 const app = express();
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
+
 
 app.use(express.json());
 app.use(cookieParser());
 
-// Test the database connection
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-  } else {
-    console.log('Connected to the database:', res.rows[0]);
-  }
-});
+// Define your routes before error handling middleware
 
-// Error Handling Middleware
+app.use('/api/auth', authRouter);
+
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   const statusCode = err.statusCode || 500;

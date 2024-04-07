@@ -6,7 +6,7 @@ import { verifyToken } from  "../utils/verifyUser.js";
 // Enroll in a course
 router.post("/:courseId", verifyToken, enrollCourse);
 
-// Get enrolled courses for the authenticated user
+// Get enrolled courses for the authenticated user 
 router.get("/", verifyToken, getEnrolledCourses);
 
 export default router;

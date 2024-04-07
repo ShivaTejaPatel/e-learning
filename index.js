@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/auth.route.js";
 import courseRouter from "./routes/course.route.js";
 import userRouter from "./routes/user.route.js";
+import morgan from "morgan";
 
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -21,7 +22,7 @@ mongoose
   });
 
 
-
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 

@@ -1,5 +1,5 @@
 import  mongoose  from "mongoose";
-
+import mongoosePaginate from 'mongoose-paginate-v2';
 const courseSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
     default: 0
   }
 });
-
+courseSchema.plugin(mongoosePaginate);
 const Course = mongoose.model('Course', courseSchema);
 
 export default Course;

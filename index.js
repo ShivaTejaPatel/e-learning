@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/auth.route.js";
+import courseRouter from "./routes/course.route.js";
+import userRouter from "./routes/user.route.js";
 
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -26,6 +28,8 @@ app.use(cookieParser());
 // Define your routes before error handling middleware
 
 app.use('/api/auth', authRouter);
+app.use('/api/course',courseRouter);
+app.use('/api/user',userRouter);
 
 
 // Error handling middleware

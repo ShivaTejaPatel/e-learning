@@ -132,7 +132,6 @@ export const createCourse = async (req, res) => {
 export const getCourseById = async (req, res) => {
   morgan('dev')(req, res, async () => {
     const { id } = req.params;
-
     try {
       const course = await Course.findById(id);
       if (!course) {

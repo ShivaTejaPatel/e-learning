@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import authRouter from "./routes/auth.route.js";
 import courseRouter from "./routes/course.route.js";
 import userRouter from "./routes/user.route.js";
+import enrollRouter from "./routes/enrollement.route.js";
 import morgan from "morgan";
 
 import express from "express";
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRouter);
 app.use('/api/course',courseRouter);
 app.use('/api/user',userRouter);
+app.use('/api/enroll',enrollRouter);
 
 
 // Error handling middleware

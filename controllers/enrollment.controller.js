@@ -1,5 +1,6 @@
-const Enrollment = require('../models/enrollment.model');
-const Course = require('../models/course.model');
+
+import Enrollment  from '../models/enrollment.model.js';
+import Course from '../models/course.model.js';
 
 // Enroll in a course
 export const enrollCourse = async (req, res) => {

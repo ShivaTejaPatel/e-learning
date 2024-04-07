@@ -13,7 +13,7 @@ router.post('/', verifyToken, isSuperadmin, createCourse);
 router.get('/:id', getCourseById);
 
 // Update a course (only for superadmin)
-router.put('/:id', verifyToken, isSuperadmin, updateCourse);
+router.patch('/:id', verifyToken, isSuperadmin, updateCourse);
 
 // Delete a course (only for superadmin)
 router.delete('/:id', verifyToken, isSuperadmin, deleteCourse);

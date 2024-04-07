@@ -148,19 +148,24 @@ export const getCourseById = async (req, res) => {
 export const updateCourse = async (req, res) => {
   morgan('dev')(req, res, async () => {
     const { id } = req.params;
-    const { title, description, category, level } = req.body;
+    const updates = req.body;
 
     try {
-      const course = await Course.findByIdAndUpdate(
-        id,
-        { title, description, category, level },
-        { new: true }
-      );
+      const course = await Course.findByIdAndUpdate(id, updates, {
+        new: true,
+        runValidators: true,
+      });
+
       if (!course) {
         return res.status(404).json({ error: 'Course not found' });
       }
+
       res.json(course);
     } catch (err) {
+      console.error('Error in updateCourse:', err);
+      if (err.name === 'ValidationError') {
+        return res.status(400).json({ error: err.message });
+      }
       res.status(400).json({ error: 'Failed to update course' });
     }
   });

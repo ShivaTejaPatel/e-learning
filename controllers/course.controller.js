@@ -171,7 +171,7 @@ export const updateCourse = async (req, res) => {
   });
 };
 
-// Delete a course
+// Delete a course by super admin
 export const deleteCourse = async (req, res) => {
   morgan('dev')(req, res, async () => {
     const { id } = req.params;

@@ -61,3 +61,28 @@ export const sendEnrollmentEmail = async (email, courseName) => {
     console.error('Error sending enrollment email:', error);
   }
 };
+
+
+/**
+ * Sends a password updated email to the specified email address.
+ *
+ * @param {string} email - The email address to send the password updated email to.
+ * @param {string} name - The name of the user.
+ * @return {Promise<void>} A promise that resolves when the email is sent successfully.
+ */
+export const sendPasswordUpdatedEmail = async (email, name) => {
+  try {
+    await resend.emails.send({
+      from: 'hello@nstinfo.xyz',
+      to: email,
+      subject: 'Password Updated',
+      html: `
+        <p>Hello, ${name}!</p>
+        <p>Your password has been successfully updated for our e-learning platform.</p>
+        <p>If you did not request this password update, please contact our support team.</p>
+      `,
+    });
+  } catch (error) {
+    console.error('Error sending password updated email:', error);
+  }
+};

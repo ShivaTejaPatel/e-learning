@@ -3,30 +3,31 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import morgan from 'morgan';
 
+import { sendPasswordUpdatedEmail } from '../utils/emailService.js'; 
+
 export const updateUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
-    if (req.user.id !== req.params.id)
-      return next(errorHandler(403, "You can update only your account"));
-
     try {
-      if (req.body.password) {
-        req.body.password = bcryptjs.hashSync(req.body.password, 10);
+      // Check if the authenticated user is trying to update their own account
+      if (req.user.id !== req.params.id) {
+        return next(errorHandler(403, "You can update only your account"));
       }
 
+      // Update the user's information
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
           $set: {
-            name: req.body.username,
+            name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
             avatar: req.body.avatar,
           },
         },
-        { new: true }
+        { new: true, runValidators: true }
       );
 
-      const { password, ...rest } = updatedUser._doc;
+      // Remove the password field from the response
+      const { password, ...rest } = updatedUser.toObject();
       res.status(200).json(rest);
     } catch (error) {
       console.error('Error in updateUser:', error);
@@ -35,6 +36,25 @@ export const updateUser = async (req, res, next) => {
   });
 };
 
+export const updatePassword = async (req, res, next) => {
+  morgan('dev')(req, res, async () => {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) return next(errorHandler(404, "User not found"));
+
+      user.password = bcryptjs.hashSync(req.body.newPassword, 10);
+      await user.save();
+
+      // Send password updated email using Resend
+      await sendPasswordUpdatedEmail(user.email, user.name);
+
+      res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+      console.error('Error in updatePassword:', error);
+      next(error);
+    }
+  });
+};
 export const deleteUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     if (req.user.id !== req.params.id)

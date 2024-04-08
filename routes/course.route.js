@@ -3,7 +3,7 @@ const router = express.Router();
 import { getAllCourses, createCourse, getCourseById, updateCourse, deleteCourse} from '../controllers/course.controller.js';
 import { verifyToken, isSuperadmin }  from '../utils/verifyUser.js';
 
-
+//get all courses
 router.get('/', getAllCourses);
 
 // Create a new course (only for superadmin)

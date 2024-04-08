@@ -8,6 +8,8 @@ import morgan from "morgan";
 import { setupSenderEmail } from "./utils/emailService.js";
 import express from "express";
 import cookieParser from "cookie-parser";
+
+
 const app = express();
 
 dotenv.config();
@@ -27,8 +29,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 
-// Define your routes before error handling middleware
 
+
+// Define your routes before error handling middleware
 app.use('/api/auth', authRouter);
 app.use('/api/course',courseRouter);
 app.use('/api/user',userRouter);

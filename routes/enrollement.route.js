@@ -3,7 +3,7 @@ const router = express.Router();
 import { enrollCourse, getEnrolledCourses } from "../controllers/enrollment.controller.js";
 import { verifyToken } from  "../utils/verifyUser.js";
 
-// Enroll in a course
+
 router.post("/:courseId", verifyToken, enrollCourse);
 
 // Get enrolled courses for the authenticated user 

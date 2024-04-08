@@ -5,6 +5,14 @@ import morgan from 'morgan';
 
 import { sendPasswordUpdatedEmail } from '../utils/emailService.js'; 
 
+/**
+ * Update a user's information if they are authenticated to do so.
+ *
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ * @return {Promise<void>} Promise that resolves once the user is updated
+ */
 export const updateUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     try {
@@ -36,6 +44,14 @@ export const updateUser = async (req, res, next) => {
   });
 };
 
+/**
+ * Update user password and send email notification.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @param {Function} next - the next function
+ * @return {Promise<void>} a promise that resolves when the password is updated
+ */
 export const updatePassword = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     try {
@@ -55,6 +71,14 @@ export const updatePassword = async (req, res, next) => {
     }
   });
 };
+/**
+ * Asynchronously deletes a user based on the provided request and response.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next function.
+ * @return {Promise<void>} A Promise that resolves when the user is deleted.
+ */
 export const deleteUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     if (req.user.id !== req.params.id)
@@ -71,6 +95,14 @@ export const deleteUser = async (req, res, next) => {
   });
 };
 
+/**
+ * Function to get a user by ID asynchronously.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next function.
+ * @return {Promise} Promise that resolves to the user data or an error.
+ */
 export const getUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     try {

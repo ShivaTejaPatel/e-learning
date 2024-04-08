@@ -3,7 +3,14 @@ import Course from '../models/course.model.js';
 import morgan from 'morgan';
 import { sendEnrollmentEmail } from '../utils/emailService.js';
 
-// Enroll in a course
+
+/**
+ * Enrolls a user in a course, sends enrollment email, and handles errors.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @return {Promise<void>} a Promise that resolves when the enrollment is completed
+ */
 export const enrollCourse = async (req, res) => {
   morgan('dev')(req, res, async () => {
     const { courseId } = req.params;
@@ -31,7 +38,14 @@ export const enrollCourse = async (req, res) => {
   });
 };
 
-// Get enrolled courses for the authenticated user
+
+/**
+ * Retrieves the courses that a user is enrolled in and sends the list as a JSON response.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @return {Promise<void>} a Promise that resolves to sending a JSON response with the enrolled courses
+ */
 export const getEnrolledCourses = async (req, res) => {
   morgan('dev')(req, res, async () => {
     const userId = req.user._id;

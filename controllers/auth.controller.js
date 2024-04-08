@@ -5,6 +5,14 @@ import jwt from 'jsonwebtoken';
 import morgan from 'morgan';
 import { sendRegistrationEmail } from "../utils/emailService.js";
 
+/**
+ * Asynchronous function for user signup.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @param {Function} next - the next function
+ * @return {Promise} a Promise that resolves to the created user data or rejects with an error
+ */
 export const signup = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     const { name, email, password, avatar, isSuperadmin } = req.body;
@@ -28,6 +36,14 @@ export const signup = async (req, res, next) => {
   });
 };
 
+/**
+ * Function for user sign in.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @param {Function} next - the next function
+ * @return {Promise<void>}
+ */
 export const signin = async(req, res, next) => {
   morgan('dev')(req, res, async () => {
     const {email, password} = req.body;
@@ -53,6 +69,14 @@ export const signin = async(req, res, next) => {
   });
 };
 
+/**
+ * A function that signs out the user by clearing the access token cookie and responding with a success message.
+ *
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next function in the middleware chain
+ * @return {Promise} A promise that resolves once the user is signed out
+ */
 export const signout = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
     try{

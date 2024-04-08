@@ -24,5 +24,8 @@
     "pg": "^8.11.5",
     "resend": "^3.2.0",
     "sequelize": "^6.37.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
   }
 }

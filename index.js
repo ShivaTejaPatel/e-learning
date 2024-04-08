@@ -8,7 +8,6 @@ import morgan from "morgan";
 import { setupSenderEmail } from "./utils/emailService.js";
 import express from "express";
 import cookieParser from "cookie-parser";
-import path from "path";
 const app = express();
 
 dotenv.config();

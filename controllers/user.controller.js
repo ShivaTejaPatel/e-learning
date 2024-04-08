@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import morgan from 'morgan';
+import Enrollment from '../models/enrollment.model.js';
 
 import { sendPasswordUpdatedEmail } from '../utils/emailService.js'; 
 
@@ -71,23 +72,35 @@ export const updatePassword = async (req, res, next) => {
     }
   });
 };
+
+
+
 /**
- * Asynchronously deletes a user based on the provided request and response.
+ * Delete a user, along with their enrollments, and clear their access token cookie.
  *
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next function.
- * @return {Promise<void>} A Promise that resolves when the user is deleted.
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
+ * @param {Function} next - The next middleware function
+ * @return {Promise<void>} A promise that resolves when the user is deleted
  */
 export const deleteUser = async (req, res, next) => {
   morgan('dev')(req, res, async () => {
-    if (req.user.id !== req.params.id)
-      return next(errorHandler(403, "You can delete only your account"));
-
     try {
+      // Check if the authenticated user is trying to delete their own account
+      if (req.user.id !== req.params.id) {
+        return next(errorHandler(403, "You can delete only your account"));
+      }
+
+      // Delete the user's enrollments
+      await Enrollment.deleteMany({ user: req.params.id });
+
+      // Delete the user
       await User.findByIdAndDelete(req.params.id);
+
+      // Clear the user's access token cookie
       res.clearCookie("access_token");
-      res.status(200).json("User has been deleted");
+
+      res.status(200).json({ message: "User has been deleted" });
     } catch (error) {
       console.error('Error in deleteUser:', error);
       next(error);

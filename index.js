@@ -5,7 +5,7 @@ import courseRouter from "./routes/course.route.js";
 import userRouter from "./routes/user.route.js";
 import enrollRouter from "./routes/enrollement.route.js";
 import morgan from "morgan";
-
+import { setupSenderEmail } from "./utils/emailService.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -17,6 +17,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
+    setupSenderEmail(); // Call the setupSenderEmail function
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
@@ -47,4 +48,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+ 
+});
